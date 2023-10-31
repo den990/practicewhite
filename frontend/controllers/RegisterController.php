@@ -1,12 +1,14 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use yii\web\Controller;
 use Yii;
 use yii\web\Response;
 use yii\db;
 use common\models\User;
+use frontend\models\AccessesToken;
+
 // TODO перенести во frontend UserController
 class RegisterController extends Controller
 {
@@ -17,7 +19,6 @@ class RegisterController extends Controller
         $email = $request->getBodyParam('email');
         $password = $request->getBodyParam('password');
         $username = $request->getBodyParam('username');
-        var_dump($email, " " ,$password, " ", $username);
         if ($email!= null && $password!=null && $username!=null)
         {
             $getUser = User::find()->where(['email' => $email])->one() && User::find()->where(['username' => $username])->one();
@@ -28,15 +29,18 @@ class RegisterController extends Controller
                 $user->email = $email;
                 $user->setPassword($password);
                 $user->generateAuthKey();
-                $user->generateEmailVerificationToken();
-                $access_token = Yii::$app->security->generateRandomString();
-                $user->access_token = $access_token;
                 $user->status = 10;
+                $modelAccessToken = new AccessesToken();
+                $modelAccessToken->accessToken =Yii::$app->security->generateRandomString();
                 // TODO обработка ошибки при сохранении
                 if ($user->save()) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ['message' => 'Пользователь зарегестрирован',
-                        'access_token' => $access_token];
+                    $modelAccessToken->idUser = $user->getId();
+                    if ($modelAccessToken->save()) {
+
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return ['message' => 'Пользователь зарегестрирован',
+                            'access_token' => $modelAccessToken->accessToken];
+                    }
                 }
                 else
                 {

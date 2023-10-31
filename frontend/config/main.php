@@ -11,9 +11,19 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'controllerMap' => [
+        'auth' => 'frontend\controllers\AuthController',
+        'reg' => 'frontend\controllers\RegisterController',
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
+        'response' => [
+            'charset' => 'UTF-8',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -36,14 +46,23 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'auth',
+                    'pluralize' => false,
+                    'only' => ['token', 'authenticate'],
+                    'extraPatterns' => [
+                        'POST get-access-token' => 'token',
+                        'POST <token:[\w-]+>' => 'authenticate',
+                    ],
+                ],
+                'POST api/register' => 'reg/registration',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
