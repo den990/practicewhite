@@ -9,11 +9,18 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'gii'],
+    'modules' => [
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ['127.0.0.1', '::1']
+        ],
+    ],
     'controllerNamespace' => 'frontend\controllers',
     'controllerMap' => [
         'auth' => 'frontend\controllers\AuthController',
         'reg' => 'frontend\controllers\RegisterController',
+        'blog' => 'frontend\controllers\BlogsController',
     ],
     'components' => [
         'request' => [
@@ -61,6 +68,7 @@ return [
                     ],
                 ],
                 'POST api/register' => 'reg/registration',
+                'POST api/blog' => 'blog/publish',
             ],
         ],
     ],
