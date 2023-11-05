@@ -21,6 +21,7 @@ return [
         'auth' => 'frontend\controllers\AuthController',
         'reg' => 'frontend\controllers\RegisterController',
         'blog' => 'frontend\controllers\BlogsController',
+        'publications' => 'frontend\controllers\PublicationController',
     ],
     'components' => [
         'request' => [
@@ -69,6 +70,8 @@ return [
                 ],
                 'POST api/register' => 'reg/registration',
                 'POST api/blog' => 'blog/publish',
+                'GET publications/<limit:\d+>/<offset:\d+>' => 'publications/get',
+                'GET publications' => 'publications/get'
             ],
         ],
     ],
