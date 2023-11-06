@@ -14,7 +14,6 @@ return [
     'modules' => [],
     'controllerMap' => [
         'auth' => 'backend\controllers\AuthController',
-        'reg' => 'backend\controllers\RegisterController',
     ],
     'components' => [
         'request' => [
@@ -51,17 +50,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'auth',
-                    'pluralize' => false,
-                    'only' => ['token', 'authenticate'],
-                    'extraPatterns' => [
-                        'POST get-access-token' => 'token',
-                        'POST <token:[\w-]+>' => 'authenticate',
-                    ],
-                ],
-                'POST api/register' => 'reg/registration',
+                'login' => 'site/login'
             ],
         ],
 

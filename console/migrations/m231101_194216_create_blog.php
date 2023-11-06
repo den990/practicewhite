@@ -30,7 +30,8 @@ class m231101_194216_create_blog extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%blogs}}');
+
         $this->dropForeignKey('fk-idUser_blogs-id_user', '{{%blogs}}');
+        $this->dropTable('{{%blogs}}');
     }
 }
