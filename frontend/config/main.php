@@ -70,7 +70,6 @@ return [
                 ],
                 'POST api/register' => 'reg/registration',
                 'POST api/blog' => 'blog/publish',
-                'GET publications/<limit:\d+>/<offset:\d+>' => 'publications/get',
                 'GET publications' => 'publications/get'
             ],
         ],
