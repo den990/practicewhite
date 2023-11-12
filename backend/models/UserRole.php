@@ -23,9 +23,14 @@ class UserRole extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::ROLE_USER],
-            ['status', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
+            ['role', 'default', 'value' => self::ROLE_USER],
+            ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
+    }
+
+    public function getRole()
+    {
+        return $this->hasOne(UserRole::class, ['idUser' => 'id']);
     }
 
     public static function findIdentity($id)

@@ -19,7 +19,6 @@ class AuthController extends Controller
         $user = User::findOne(['email' => $email]);
         if ($user && Yii::$app->getSecurity()->validatePassword($password, $user->password_hash))
         {
-            // TODO создать в отдельную таблицу
             $accessToken = Yii::$app->security->generateRandomString();
             $user->access_token = $accessToken;
             $user->save();

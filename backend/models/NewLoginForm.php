@@ -57,12 +57,25 @@ class NewLoginForm extends Model
      * Logs in a user using the provided username and password.
      *
      * @return bool whether the user is logged in successfully
+     *
      */
     public function login()
     {
-
-            if ($this->isAdmin() == true) {
-                return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        $user = User::findByUsername($this->username);
+        if ($user) {
+            if (Yii::$app->security->validatePassword($this->password, $user->password_hash)) {
+                if ($this->isAdmin()) {
+                    return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+                }
+            }
+            else
+            {
+                $this->addError('password', 'Not correct password');
+            }
+        }
+        else
+        {
+            $this->addError('username', 'Username not exist');
         }
 
         return false;
@@ -88,13 +101,14 @@ class NewLoginForm extends Model
             $this->_user = User::findByUsername($this->username);
             $idUser = $this->_user->getId();
             $modelUserRole = UserRole::find()->where(['idUser' => $idUser])->one();
-            if ($modelUserRole->role == 1)
+            if ($modelUserRole->role != 1)
             {
-                return true;
+                $this->addError('username', 'You must be admin');
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
     }

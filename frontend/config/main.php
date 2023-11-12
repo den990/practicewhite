@@ -13,8 +13,26 @@ return [
     'modules' => [
         'gii' => [
             'class' => 'yii\gii\Module',
-            'allowedIPs' => ['127.0.0.1', '::1']
-        ],
+            'generators' => [
+                'crud' => [
+                    'class' => 'yii\gii\generators\crud\Generator',
+                    'templates' => [
+                        'default' => '@backend/views/_gii/crud/default',
+                    ],
+                ],
+            ],
+            'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', 'your-external-ip'],
+            // Добавьте фильтр доступа
+            'as access' => [
+                'class' => 'backend\controllers\AccessControlForBackend',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['1'], // Разрешено только для администраторов
+                    ],
+                ],
+            ],
+        ], //TODO Может быть надо вынести в общуюу структуру логинацию на gii
     ],
     'controllerNamespace' => 'frontend\controllers',
     'controllerMap' => [
