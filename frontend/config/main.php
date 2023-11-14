@@ -17,18 +17,17 @@ return [
                 'crud' => [
                     'class' => 'yii\gii\generators\crud\Generator',
                     'templates' => [
-                        'default' => '@backend/views/_gii/crud/default',
+                        'default' => 'D:\practicewhite\vendor\yiisoft\yii2-gii\src\generators\crud/default',
                     ],
                 ],
             ],
             'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', 'your-external-ip'],
-            // Добавьте фильтр доступа
             'as access' => [
-                'class' => 'backend\controllers\AccessControlForBackend',
+                'class' => 'frontend\controllers\AccessControlForGii',
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['1'], // Разрешено только для администраторов
+                        'roles' => ['1'],
                     ],
                 ],
             ],

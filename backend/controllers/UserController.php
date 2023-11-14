@@ -29,7 +29,7 @@ class UserController extends Controller
                     ],
                 ],
                 'access' => [
-                    'class' => AccessControlForBackend::class,
+                    'class' => AccessControlForGii::class,
                     'rules' => [
                         [
                             'actions' => ['index', 'view', 'create', 'update', 'delete'], // Действия CRUD

@@ -20,6 +20,15 @@ use yii\web\IdentityInterface;
 class Blogs extends ActiveRecord implements IdentityInterface
 {
 
+    public function rules()
+    {
+        return [
+            [['text'], 'string'],
+            [['idUser'], 'integer'],
+            // остальные правила валидации
+        ];
+    }
+
     public static function findIdentity($id)
     {
         return static::findOne(['id' => $id]);

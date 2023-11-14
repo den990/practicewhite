@@ -55,7 +55,7 @@ use backend\models\UserRole;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AccessControlForBackend extends ActionFilter
+class AccessControlForGii extends ActionFilter
 {
     /**
      * @var User|array|string|false the user object representing the authentication status or the ID of the user application component.
