@@ -1,12 +1,15 @@
 <?php
 
-namespace frontend\controllers;
+namespace common\controllers;
 
-use frontend\models\Blogs;
+use yii;
+use common\models\Blogs;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use frontend\models\AccessesToken;
 
 /**
  * BlogsController implements the CRUD actions for Blogs model.
@@ -16,6 +19,8 @@ class BlogsController extends Controller
     /**
      * @inheritDoc
      */
+
+
     public function behaviors()
     {
         return array_merge(

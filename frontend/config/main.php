@@ -10,34 +10,12 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
-    'modules' => [
-        'gii' => [
-            'class' => 'yii\gii\Module',
-            'generators' => [
-                'crud' => [
-                    'class' => 'yii\gii\generators\crud\Generator',
-                    'templates' => [
-                        'default' => 'D:\practicewhite\vendor\yiisoft\yii2-gii\src\generators\crud/default',
-                    ],
-                ],
-            ],
-            'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', 'your-external-ip'],
-            'as access' => [
-                'class' => 'frontend\controllers\AccessControlForGii',
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['1'],
-                    ],
-                ],
-            ],
-        ], //TODO Может быть надо вынести в общуюу структуру логинацию на gii
-    ],
+    'modules' => [],
     'controllerNamespace' => 'frontend\controllers',
     'controllerMap' => [
         'auth' => 'frontend\controllers\AuthController',
         'reg' => 'frontend\controllers\RegisterController',
-        'blog' => 'frontend\controllers\BlogsController',
+        'blog' => 'common\controllers\BlogsController',
         'publications' => 'frontend\controllers\PublicationController',
     ],
     'components' => [

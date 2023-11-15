@@ -5,7 +5,7 @@
  * @license https://www.yiiframework.com/license/
  */
 
-namespace backend\controllers;
+namespace common\controllers;
 
 use Yii;
 use yii\base\Action;

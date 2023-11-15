@@ -12,6 +12,13 @@ use frontend\models\AccessesToken;
 // TODO перенести во frontend UserController
 class RegisterController extends Controller
 {
+    public function beforeAction($action)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return parent::beforeAction($action);
+    }
+
     public $enableCsrfValidation = false;
     public function actionRegistration()
     {
@@ -36,27 +43,22 @@ class RegisterController extends Controller
                 if ($user->save()) {
                     $modelAccessToken->idUser = $user->getId();
                     if ($modelAccessToken->save()) {
-
-                        Yii::$app->response->format = Response::FORMAT_JSON;
                         return ['message' => 'Пользователь зарегестрирован',
                             'access_token' => $modelAccessToken->accessToken];
                     }
                 }
                 else
                 {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
                     return ['message' => 'Произошла ошибка при сохранении пользователя'];
                 }
             }
             else
             {
-                Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['message' => 'Пользователь с таким email или username уже существует'];
             }
         }
         else
         {
-            Yii::$app->response->format = Response::FORMAT_JSON;
             return ['message' => 'Нужно ввести username, email, password'];
         }
     }

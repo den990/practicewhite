@@ -11,6 +11,13 @@ use frontend\models\AccessesToken;
 
 class AuthController extends Controller
 {
+    public function beforeAction($action)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return parent::beforeAction($action);
+    }
+
     public $enableCsrfValidation = false;
     public function actionToken()
     {
@@ -20,24 +27,20 @@ class AuthController extends Controller
         $user = User::findOne(['email' => $email]);
         if ($user && Yii::$app->getSecurity()->validatePassword($password, $user->password_hash))
         {
-            // TODO создать в отдельную таблицу
             $modelAccessToken = new AccessesToken();
             $modelAccessToken->accessToken = Yii::$app->security->generateRandomString();
             $modelAccessToken->idUser = $user->id;
             if ($modelAccessToken->save()) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['access_token' => $modelAccessToken->accessToken];
             }
             else
             {
-                Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['message' => 'Неудалось создать Access Token'];
             }
         }
         else
         {
             Yii::$app->response->statusCode = 401;
-            Yii::$app->response->format = Response::FORMAT_JSON;
             return ['message' => 'Пользователь не существует'];
         }
     }
@@ -51,16 +54,13 @@ class AuthController extends Controller
             $user = User::find()->where(['id'=> $userId])->one();
             if ($user) {
                 Yii::$app->user->login($user);
-                Yii::$app->response->format = Response::FORMAT_JSON;
                 return $this->goHome();
             }
             else{
-                Yii::$app->response->format = Response::FORMAT_JSON;
                 return ['message' => 'Нет пользователя с таким accessToken'];
             }
         } else {
             Yii::$app->response->statusCode = 401;
-            Yii::$app->response->format = Response::FORMAT_JSON;
             return ['message' => 'Нет такого токена'];
         }
     }
