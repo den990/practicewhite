@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\BaseUser;
 use yii\web\Controller;
 use Yii;
 use yii\web\Response;
@@ -31,7 +32,7 @@ class RegisterController extends Controller
             $getUser = User::find()->where(['email' => $email])->one() && User::find()->where(['username' => $username])->one();
             if (!$getUser)
             {
-                $user = new User;
+                $user = new BaseUser();
                 $user->username = $username;
                 $user->email = $email;
                 $user->setPassword($password);
