@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => new \yii\data\ActiveDataProvider([
             'query' => $model->getComments(),
             'pagination' => [
-                'pageSize' => 10, // Установите желаемое количество комментариев на странице
+                'pageSize' => 10,
             ],
         ]),
         'columns' => [
@@ -56,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'text',
             'userId',
-            // Другие атрибуты комментариев, которые вы хотите отобразить
         ],
     ]); ?>
 
