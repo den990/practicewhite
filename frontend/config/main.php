@@ -17,6 +17,7 @@ return [
         'reg' => 'frontend\controllers\RegisterController',
         'blog' => 'common\controllers\BlogsController',
         'publications' => 'frontend\controllers\PublicationController',
+        'comment' => 'common\controllers\CommentController',
     ],
     'components' => [
         'request' => [
@@ -65,7 +66,10 @@ return [
                 ],
                 'POST api/register' => 'reg/registration',
                 'POST api/blog' => 'blog/publish',
-                'GET publications' => 'publications/get'
+                'GET publications' => 'publications/get',
+                'POST api/addcomment' => 'comment/create',
+                'POST api/deletecomment' => 'comment/delete',
+                'POST api/get-comments' => 'comment/get-comments'
             ],
         ],
     ],

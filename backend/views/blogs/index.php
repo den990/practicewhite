@@ -30,6 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'text',
             'idUser',
             [
+                'label' => 'Comments',
+                'value' => function ($model) {
+                    return $model->getComments()->count();
+                },
+            ],
+            [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Blogs $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);

@@ -25,7 +25,7 @@ return [
             'allowedIPs' => ['127.0.0.1', '::1', '192.168.0.*', 'your-external-ip'],
             // Добавьте фильтр доступа
             'as access' => [
-                'class' => 'backend\controllers\AccessControlForGii',
+                'class' => 'common\controllers\AccessControlForGii',
                 'rules' => [
                     [
                         'allow' => true,

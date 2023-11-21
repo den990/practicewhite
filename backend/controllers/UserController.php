@@ -4,7 +4,7 @@ namespace backend\controllers;
 
 use common\models\BaseUser;
 use yii\data\ActiveDataProvider;
-use yii\filters\AccessControlForBackend;
+use common\controllers\AccessControlForGii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

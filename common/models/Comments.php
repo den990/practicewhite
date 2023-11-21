@@ -4,39 +4,44 @@ namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * AccessesToken model
+ * Comments model
  *
  * @property integer $id
  * @property string $text
- * @property integer $idUser
+ * @property integer $userId
+ * @property integer $blogId
 
  */
 
-class Blogs extends ActiveRecord implements IdentityInterface
+class Comments extends ActiveRecord implements IdentityInterface
 {
 
     public function rules()
     {
         return [
+            [['text', 'blogId'], 'required'],
             [['text'], 'string'],
-            [['idUser'], 'integer'],
-            // остальные правила валидации
+            [['blogId'], 'integer'],
         ];
     }
 
-    public function getComments()
+    public function getUser()
     {
-        return $this->hasMany(Comments::class, ['blogId' => 'id']);
+        return $this->hasOne(User::class, ['id' => 'userId']);
+    }
+
+    public function getBlog()
+    {
+        return $this->hasOne(Blogs::class, ['id' => 'blogId']);
     }
 
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id]);
+        throw new NotSupportedException('"findIdentity" is not implemented.');
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
@@ -46,7 +51,7 @@ class Blogs extends ActiveRecord implements IdentityInterface
 
     public function getId()
     {
-        return $this->getPrimaryKey();
+        $this->getPrimaryKey();
     }
 
     public function getAuthKey()

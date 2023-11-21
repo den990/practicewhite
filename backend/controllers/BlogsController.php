@@ -1,6 +1,6 @@
 <?php
 
-namespace common\controllers;
+namespace backend\controllers;
 
 use yii;
 use common\models\Blogs;
@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use frontend\models\AccessesToken;
+use common\controllers\AccessControlForGii;
 
 /**
  * BlogsController implements the CRUD actions for Blogs model.

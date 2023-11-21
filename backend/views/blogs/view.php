@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var frontend\models\Blogs $model */
@@ -32,7 +33,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'text',
             'idUser',
+            [
+                'label' => 'Count Comments',
+                'value' => function ($model) {
+                    return $model->getComments()->count();
+                },
+            ],
         ],
     ]) ?>
+
+    <h2>Comments</h2>
+
+    <?= GridView::widget([
+        'dataProvider' => new \yii\data\ActiveDataProvider([
+            'query' => $model->getComments(),
+            'pagination' => [
+                'pageSize' => 10, // Установите желаемое количество комментариев на странице
+            ],
+        ]),
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'id',
+            'text',
+            'userId',
+            // Другие атрибуты комментариев, которые вы хотите отобразить
+        ],
+    ]); ?>
 
 </div>
