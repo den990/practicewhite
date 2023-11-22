@@ -51,15 +51,21 @@ class CommentController extends Controller
         if (Yii::$app->request->isPost) {
             $postData = Yii::$app->request->post();
             $comment = Comments::findOne($postData['commentId']);
+            $accessToken = AccessesToken::find()->where(['accessToken' => $postData['access_token']])->one();
+            if ($accessToken) {
+                if (!$comment) {
+                    return ['message' => 'Комментарий не найден'];
+                }
 
-            if (!$comment) {
-                return ['message' => 'Комментарий не найден'];
+                if ($comment->delete()) {
+                    return ['message' => 'Комментарий успешно удален'];
+                } else {
+                    return ['message' => 'Ошибка удаления комментария'];
+                }
             }
-
-            if ($comment->delete()) {
-                return ['message' => 'Комментарий успешно удален'];
-            } else {
-                return ['message' => 'Ошибка удаления комментария'];
+            else
+            {
+                return ['message' => 'Нет такого токена'];
             }
         }
     }
