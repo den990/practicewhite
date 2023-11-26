@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var frontend\models\Blogs $model */
 
-$this->title = 'Create Blogs';
-$this->params['breadcrumbs'][] = ['label' => 'Blogs', 'url' => ['index']];
+$this->title = 'Create BaseBlogs';
+$this->params['breadcrumbs'][] = ['label' => 'BaseBlogs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="blogs-create">

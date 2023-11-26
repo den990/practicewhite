@@ -9,18 +9,18 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
-use frontend\models\AccessesToken;
+use common\models\AccessToken;
 use common\controllers\AccessControlForGii;
 
 /**
- * BlogsController implements the CRUD actions for Blogs model.
+ * BlogsController implements the CRUD actions for BaseBlogs model.
  */
 class BlogsController extends Controller
 {
     /**
      * @inheritDoc
      */
-
+    public $enableCsrfValidation = false;
 
     public function behaviors()
     {
@@ -48,7 +48,7 @@ class BlogsController extends Controller
     }
 
     /**
-     * Lists all Blogs models.
+     * Lists all BaseBlogs models.
      *
      * @return string
      */
@@ -74,7 +74,7 @@ class BlogsController extends Controller
     }
 
     /**
-     * Displays a single Blogs model.
+     * Displays a single BaseBlogs model.
      * @param int $id
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -87,7 +87,7 @@ class BlogsController extends Controller
     }
 
     /**
-     * Creates a new Blogs model.
+     * Creates a new BaseBlogs model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
@@ -109,7 +109,7 @@ class BlogsController extends Controller
     }
 
     /**
-     * Updates an existing Blogs model.
+     * Updates an existing BaseBlogs model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id
      * @return string|\yii\web\Response
@@ -129,7 +129,7 @@ class BlogsController extends Controller
     }
 
     /**
-     * Deletes an existing Blogs model.
+     * Deletes an existing BaseBlogs model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id
      * @return \yii\web\Response
@@ -143,52 +143,16 @@ class BlogsController extends Controller
     }
 
     /**
-     * Finds the Blogs model based on its primary key value.
+     * Finds the BaseBlogs model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id
-     * @return Blogs the loaded model
+     * @return BaseBlogs the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
         if (($model = Blogs::findOne(['id' => $id])) !== null) {
             return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-
-    public $enableCsrfValidation = false;
-    public function actionPublish() {
-        $request = Yii::$app->getRequest();
-        $accessToken = $request->getBodyParam('access_token');
-        $text = $request->getBodyParam('text');
-        if ($accessToken && $text)
-        {
-            $modelBlogs = new Blogs();
-            $modelAccessToken = AccessesToken::find()->where(['accessToken' => $accessToken])->one();
-            if ($modelAccessToken) {
-                $modelBlogs->text = $text;
-                $modelBlogs->idUser = $modelAccessToken->getUserId();
-                if ($modelBlogs->save()) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ['message' => 'Пост сохранён'];
-                } else {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ['message' => 'Произошла ошибка при сохранении'];
-                }
-            }
-            else
-            {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ['message' => 'Невалидный Access Token'];
-            }
-        }
-        else
-        {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['message' => 'Заполните все данные'];
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');

@@ -4,45 +4,29 @@ namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use common\models\Blogs;
 
 /**
- * Comments model
+ * BaseAccessToken model
  *
  * @property integer $id
- * @property string $text
- * @property integer $userId
- * @property integer $blogId
+ * @property integer $idUser
+ * @property string $accessToken
 
  */
 
-class Comments extends ActiveRecord implements IdentityInterface
+class BaseAccessToken extends ActiveRecord implements IdentityInterface
 {
-
-    public function rules()
+    public static function tableName()
     {
-        return [
-            [['text', 'blogId'], 'required'],
-            [['text'], 'string'],
-            [['blogId'], 'integer'],
-        ];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::class, ['id' => 'userId']);
-    }
-
-    public function getBlog()
-    {
-        return $this->hasOne(Blogs::class, ['id' => 'blogId']);
+        return '{{%accesses_token}}';
     }
 
     public static function findIdentity($id)
     {
-        throw new NotSupportedException('"findIdentity" is not implemented.');
+        return static::findOne(['id' => $id]);
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
@@ -52,7 +36,12 @@ class Comments extends ActiveRecord implements IdentityInterface
 
     public function getId()
     {
-        $this->getPrimaryKey();
+        return $this->getPrimaryKey();
+    }
+
+    public function getUserId()
+    {
+        return $this->idUser;
     }
 
     public function getAuthKey()
@@ -63,5 +52,12 @@ class Comments extends ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         throw new NotSupportedException('"validateAuthKey" is not implemented.');
+    }
+
+
+
+    public function removeAccessToken()
+    {
+        $this->accessToken = null;
     }
 }

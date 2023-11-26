@@ -5,25 +5,25 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 /**
- * This is the model class for table "user".
+ * User model
  *
- * @property int $id
+ * @property integer $id
  * @property string $username
- * @property string $auth_key
  * @property string $password_hash
- * @property string|null $password_reset_token
+ * @property string $password_reset_token
+ * @property string $verification_token
  * @property string $email
- * @property int $status
- * @property int $created_at
- * @property int $updated_at
- *
- * @property AccessesToken[] $accessesTokens
- * @property Blogs[] $blogs
- * @property UserRole[] $userRoles
+ * @property string $auth_key
+ * @property integer $status
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property string $password write-only password
  */
-class BaseUser extends User
+class BaseUser extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
@@ -34,10 +34,7 @@ class BaseUser extends User
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
-        return '{{%user}}';
-    }
+
 
     /**
      * {@inheritdoc}
@@ -55,7 +52,7 @@ class BaseUser extends User
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
         ];
     }

@@ -15,9 +15,8 @@ return [
     'controllerMap' => [
         'auth' => 'frontend\controllers\AuthController',
         'reg' => 'frontend\controllers\RegisterController',
-        'blog' => 'common\controllers\BlogsController',
-        'publications' => 'frontend\controllers\PublicationController',
-        'comment' => 'common\controllers\CommentController',
+        'blog' => 'frontend\controllers\BlogsController',
+        'comment' => 'frontend\controllers\CommentController',
     ],
     'components' => [
         'request' => [
@@ -65,8 +64,8 @@ return [
                     ],
                 ],
                 'POST api/register' => 'reg/registration',
-                'POST api/blog' => 'blog/publish',
-                'GET publications' => 'publications/get',
+                'POST createpub' => 'blog/pub',
+                'GET publications' => 'blog/get',
                 'POST api/addcomment' => 'comment/create',
                 'POST api/deletecomment' => 'comment/delete',
                 'POST api/get-comments' => 'comment/get-comments'

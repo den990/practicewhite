@@ -2,11 +2,12 @@
 
 namespace common\models;
 
-class Blogs extends BaseBlogs
+use common\models\BaseAccessToken;
+
+class AccessToken extends BaseAccessToken
 {
     public function rules()
     {
         return parent::rules();
     }
-
 }

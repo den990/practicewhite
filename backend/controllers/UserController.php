@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use common\models\BaseUser;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use common\controllers\AccessControlForGii;
 use yii\web\Controller;
@@ -51,7 +51,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => BaseUser::find(),
+            'query' => User::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -89,7 +89,7 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new BaseUser();
+        $model = new User();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -147,7 +147,7 @@ class UserController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = BaseUser::findOne(['id' => $id])) !== null) {
+        if (($model = User::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

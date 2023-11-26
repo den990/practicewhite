@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -9,16 +9,35 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * AccessesToken model
+ * BaseAccessToken model
  *
  * @property integer $id
+ * @property string $text
  * @property integer $idUser
- * @property string $accessToken
 
  */
 
-class AccessesToken extends ActiveRecord implements IdentityInterface
+class BaseBlogs extends ActiveRecord implements IdentityInterface
 {
+
+    public function rules()
+    {
+        return [
+            [['text'], 'string'],
+            [['idUser'], 'integer'],
+            // остальные правила валидации
+        ];
+    }
+
+    public static function tableName()
+    {
+        return '{{%blogs}}';
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany(Comments::class, ['blogId' => 'id']);
+    }
 
     public static function findIdentity($id)
     {
@@ -35,11 +54,6 @@ class AccessesToken extends ActiveRecord implements IdentityInterface
         return $this->getPrimaryKey();
     }
 
-    public function getUserId()
-    {
-        return $this->idUser;
-    }
-
     public function getAuthKey()
     {
         throw new NotSupportedException('"getAuthKey" is not implemented.');
@@ -48,12 +62,5 @@ class AccessesToken extends ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         throw new NotSupportedException('"validateAuthKey" is not implemented.');
-    }
-
-
-
-    public function removeAccessToken()
-    {
-        $this->accessToken = null;
     }
 }

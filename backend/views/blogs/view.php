@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /** @var frontend\models\Blogs $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Blogs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'BaseBlogs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
