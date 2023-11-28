@@ -1,40 +1,45 @@
 <?php
+
 namespace frontend\models\User;
 
-use common\models\AccessToken;
 use Yii;
-use yii\base\Model;
+use common\models\AccessToken;
 use common\models\User;
+use yii\base\Model;
 
 class LoginUserForm extends Model
 {
-    public $email;
-    public $password;
+    public $accessToken;
 
     public function rules()
     {
         return [
-            [['password'], 'required'],
-            [['email'], 'email'],
+            ['accessToken', 'required']
         ];
     }
 
-    public function init() {
-        $this->attributes = Yii::$app->request->post();
+    public function init()
+    {
+
     }
 
     public function login()
     {
-        $user = User::findByEmail($this->email);
-        if ($user && Yii::$app->getSecurity()->validatePassword($this->password, $user->password_hash))
-        {
-            $modelAccessToken = AccessToken::findOne(['idUser' => $user->getId()]);
-            return ['access_token' => $modelAccessToken->accessToken];
-        }
-        else
-        {
+        $accessToken = AccessToken::find()->where(['accessToken' => $this->accessToken])->one();
+
+        if ($accessToken != null) {
+            $userId = $accessToken->getUserId();
+            $user = User::find()->where(['id'=> $userId])->one();
+            if ($user) {
+                Yii::$app->user->login($user);
+                return Yii::$app->getResponse()->redirect(['/site/index']);
+            }
+            else{
+                return ['message' => 'Нет пользователя с таким accessToken'];
+            }
+        } else {
             Yii::$app->response->statusCode = 401;
-            return ['message' => 'Пользователь не существует'];
+            return ['message' => 'Нет такого токена'];
         }
     }
 }

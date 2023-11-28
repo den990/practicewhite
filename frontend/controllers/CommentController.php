@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Comments\CommentCreateForm;
 use frontend\models\Comments\CommentDeleteForm;
 use frontend\models\Comments\CommentListForm;
 use Yii;
@@ -22,30 +23,8 @@ class CommentController extends Controller
 
     public function actionCreate()
     {
-        if (Yii::$app->request->isPost)
-        {
-            $modelComments = new Comments();
-            $postData = Yii::$app->request->post();
-            $modelComments->load($postData, '');
-            $token = $postData['access_token'];
-            $accessToken = AccessToken::find()->where(['accessToken' => $token])->one();
-            if ($accessToken)
-            {
-                $modelComments->userId = $accessToken->idUser;
-                if ($modelComments->save())
-                {
-                    return ['message' => 'Комментарий сохранен'];
-                }
-                else
-                {
-                    return ['message' => 'Ошибка сохранения комментария'];
-                }
-            }
-            else
-            {
-                return ['message' => 'Такого пользователя не существует'];
-            }
-        }
+        $model = new CommentCreateForm();
+        return $model->create();
     }
 
     public function actionDelete()

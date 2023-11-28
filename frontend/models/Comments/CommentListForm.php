@@ -34,27 +34,11 @@ class CommentListForm extends Model
         $result = [];
 
         foreach ($this->comments as $comment) {
-            $result[] = $this->shortSerialize($comment);
+            $model = new Comments($comment);
+            $result[] = $model->shortSerialize();
         }
 
         return $result;
     }
 
-    public function shortSerialize($comment)
-    {
-        return [
-            'id' => $comment['id'],
-            'text' => $comment['text'],
-        ];
-    }
-
-    public function longSerialize($comment)
-    {
-        return [
-            'id' => $comment['id'],
-            'text' => $comment['text'],
-            'blogId' => $comment['blogId'],
-            'userId' => $comment['userId']
-        ];
-    }
 }

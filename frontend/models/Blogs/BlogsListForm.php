@@ -54,26 +54,10 @@ class BlogsListForm extends Model
 
         foreach ($this->blogs as $blog)
         {
-            $result[] = $this->shortSerialize($blog);
+            $model = new Blogs($blog);
+            $result[] = $model->shortSerialize();
         }
         return $result;
-    }
-
-    public function shortSerialize($blog)
-    {
-        return [
-            'id' => $blog['id'],
-            'text' => $blog['text']
-        ];
-    }
-
-    public function longSerialize($blog)
-    {
-        return [
-            'id' => $blog['id'],
-            'text' => $blog['text'],
-            'userId' => $blog['idUser']
-        ];
     }
 
 }

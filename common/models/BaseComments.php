@@ -2,46 +2,46 @@
 
 namespace common\models;
 
-use Yii;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
- * BaseAccessToken model
+ * Comments model
  *
  * @property integer $id
  * @property string $text
- * @property integer $idUser
+ * @property integer $userId
+ * @property integer $blogId
 
  */
 
-class BaseBlogs extends ActiveRecord implements IdentityInterface
+
+class BaseComments  extends ActiveRecord implements IdentityInterface
 {
 
     public function rules()
     {
         return [
+            [['text', 'blogId'], 'required'],
             [['text'], 'string'],
-            [['idUser'], 'integer'],
-            // остальные правила валидации
+            [['blogId'], 'integer'],
         ];
     }
 
-    public static function tableName()
+    public function getUser()
     {
-        return '{{%blogs}}';
+        return $this->hasOne(User::class, ['id' => 'userId']);
     }
 
-    public function getComments()
+    public function getBlog()
     {
-        return $this->hasMany(Comments::class, ['blogId' => 'id']);
+        return $this->hasOne(Blogs::class, ['id' => 'blogId']);
     }
 
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id]);
+        throw new NotSupportedException('"findIdentity" is not implemented.');
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
@@ -51,7 +51,7 @@ class BaseBlogs extends ActiveRecord implements IdentityInterface
 
     public function getId()
     {
-        return $this->getPrimaryKey();
+        $this->getPrimaryKey();
     }
 
     public function getAuthKey()
@@ -68,7 +68,7 @@ class BaseBlogs extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => $this['id'],
-            'text' => $this['text']
+            'text' => $this['text'],
         ];
     }
 
@@ -77,7 +77,8 @@ class BaseBlogs extends ActiveRecord implements IdentityInterface
         return [
             'id' => $this['id'],
             'text' => $this['text'],
-            'userId' => $this['idUser']
+            'blogId' => $this['blogId'],
+            'userId' => $this['userId']
         ];
     }
 }

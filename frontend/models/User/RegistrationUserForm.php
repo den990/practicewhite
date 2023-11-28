@@ -2,7 +2,7 @@
 namespace frontend\models\User;
 
 use common\models\User;
-use frontend\models\BaseAccessToken;
+use common\models\AccessToken;
 use Yii;
 use yii\base\Model;
 
@@ -34,7 +34,7 @@ class RegistrationUserForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->status = 10;
-        $modelAccessToken = new BaseAccessToken();
+        $modelAccessToken = new AccessToken();
         $modelAccessToken->accessToken =Yii::$app->security->generateRandomString();
         // TODO обработка ошибки при сохранении
         if ($user->save()) {
@@ -45,7 +45,6 @@ class RegistrationUserForm extends Model
             }
             else
             {
-
                 return ['message' => 'AccessToken error save'];
             }
         }

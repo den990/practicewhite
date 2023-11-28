@@ -18,50 +18,10 @@ use common\models\Blogs;
 
  */
 
-class Comments extends ActiveRecord implements IdentityInterface
+class Comments extends BaseComments
 {
-
     public function rules()
     {
-        return [
-            [['text', 'blogId'], 'required'],
-            [['text'], 'string'],
-            [['blogId'], 'integer'],
-        ];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::class, ['id' => 'userId']);
-    }
-
-    public function getBlog()
-    {
-        return $this->hasOne(Blogs::class, ['id' => 'blogId']);
-    }
-
-    public static function findIdentity($id)
-    {
-        throw new NotSupportedException('"findIdentity" is not implemented.');
-    }
-
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-
-    public function getId()
-    {
-        $this->getPrimaryKey();
-    }
-
-    public function getAuthKey()
-    {
-        throw new NotSupportedException('"getAuthKey" is not implemented.');
-    }
-
-    public function validateAuthKey($authKey)
-    {
-        throw new NotSupportedException('"validateAuthKey" is not implemented.');
+        return parent::rules();
     }
 }
